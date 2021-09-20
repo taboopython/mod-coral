@@ -175,8 +175,8 @@ if __name__ == '__main__':
    
 
     # Model must be uint8 quantized
-    if common.input_details(interpreter, 'dtype') != np.uint8:
-      raise ValueError('Only support uint8 input type.')
+    #if common.input_details(interpreter, 'dtype') != np.uint8:
+    #  raise ValueError('Only support uint8 input type.')
 
-    size = common.input_size(interpreter)
-    image2 = Image.open(args.input).convert('RGB').resize(size, Image.ANTIALIAS)
+    #size = common.input_size(interpreter)
+    #image2 = Image.open(args.input).convert('RGB').resize(size, Image.ANTIALIAS)
