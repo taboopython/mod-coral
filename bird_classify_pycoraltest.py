@@ -26,23 +26,18 @@ optionally can set this to training mode for collecting images for a custom
 model.
 
 """
-
 import argparse
 import time
 import re
 import imp
 import logging
 import gstreamer
-
 #import sys
 #sys.path.append('/usr/lib/python3/dist-packages/edgetpu')
-
 #from edgetpu.classification.engine import ClassificationEngine
 from PIL import Image
 from playsound import playsound
-
 import numpy as np
-
 from pycoral.adapters import classify
 from pycoral.adapters import common
 from pycoral.utils.dataset import read_label_file
@@ -103,19 +98,10 @@ def user_selections():
     parser.add_argument('--training', default=False, required=False,
                         help='Training mode for image collection')
     args = parser.parse_args()
-    labels = read_label_file(args.labels) if args.labels else {}
-
-    interpreter = make_interpreter(*args.model.split('@'))
-    interpreter.allocate_tensors()
-
-    # Model must be uint8 quantized
-    if common.input_details(interpreter, 'dtype') != np.uint8:
-      raise ValueError('Only support uint8 input type.')
-
-    size = common.input_size(interpreter)
-    image2 = Image.open(args.input).convert('RGB').resize(size, Image.ANTIALIAS)
-
     return args
+
+
+
 
 
 def main():
@@ -126,12 +112,20 @@ def main():
     args = user_selections()
     print("Loading %s with %s labels."%(args.model, args.labels))
    # engine = ClassificationEngine(args.model)
-    params = common.input_details(interpreter, 'quantization_parameters')
-
-#atarasikuireru?
-
-    labels = load_labels(args.labels)
+   # params = common.input_details(interpreter, 'quantization_parameters')
+    interpreter = make_interpreter(args.model)
+    interpreter.allocate_tensors()
+    #labels = load_labels(args.labels)
+    labels = read_label_file(args.labels) # if args.labels else {}
+    inference_size = input_size(interpreter)
+    # Average fps over last 30 frames.
+    # fps_counter = avg_fps_counter(30)
+    
     storage_dir = args.storage
+
+
+
+
 
     #Initialize logging file
     logging.basicConfig(filename='%s/results.log'%storage_dir,
@@ -144,9 +138,13 @@ def main():
         nonlocal last_time
         nonlocal last_results
         start_time = time.monotonic()
-        results = engine.classify_with_image(image, threshold=args.threshold, top_k=args.top_k)
+        #results = engine.classify_with_image(image, threshold=args.threshold, top_k=args.top_k)
+        run_inference(interpreter, input_tensor)
+        results = get_classes(interpreter, args.top_k, args.threshold)
         end_time = time.monotonic()
         results = [(labels[i], score) for i, score in results]
+
+        
 
         if args.print:
           print_results(start_time,last_time, end_time, results)
@@ -169,3 +167,16 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+    
+
+   
+
+    # Model must be uint8 quantized
+    if common.input_details(interpreter, 'dtype') != np.uint8:
+      raise ValueError('Only support uint8 input type.')
+
+    size = common.input_size(interpreter)
+    image2 = Image.open(args.input).convert('RGB').resize(size, Image.ANTIALIAS)
