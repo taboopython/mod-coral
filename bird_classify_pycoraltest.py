@@ -43,6 +43,8 @@ from pycoral.adapters import common
 from pycoral.utils.dataset import read_label_file
 from pycoral.utils.edgetpu import make_interpreter
 from pycoral.utils.edgetpu import run_inference
+from pycoral.adapters.common import input_size
+from pycoral.adapters.classify import get_classes
 
 def save_data(image,results,path,ext='png'):
     """Saves camera frame and model inference results
