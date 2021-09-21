@@ -42,7 +42,7 @@ from pycoral.adapters import classify
 from pycoral.adapters import common
 from pycoral.utils.dataset import read_label_file
 from pycoral.utils.edgetpu import make_interpreter
-
+from pycoral.utils.edgetpu import run_inference
 
 def save_data(image,results,path,ext='png'):
     """Saves camera frame and model inference results
@@ -117,7 +117,7 @@ def main():
     interpreter.allocate_tensors()
     #labels = load_labels(args.labels)
     labels = read_label_file(args.labels) # if args.labels else {}
-    inference_size = input_size(interpreter)
+    inference_size = input_size(interpreter) #★定義の仕方
     # Average fps over last 30 frames.
     # fps_counter = avg_fps_counter(30)
     
