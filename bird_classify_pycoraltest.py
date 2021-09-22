@@ -165,7 +165,12 @@ def main():
 
         last_results=results
         last_time = end_time
-    result = gstreamer.run_pipeline(user_callback)
+    result = gstreamer.run_pipeline(user_callback,
+                                    src_size=(640, 480),
+                                    appsink_size=inference_size,
+                                    videosrc=args.videosrc,
+                                    videofmt=args.videofmt,
+                                    headless=args.headless)
 
 if __name__ == '__main__':
     main()
