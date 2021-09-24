@@ -144,7 +144,7 @@ def main():
 
     last_time = time.monotonic()
     last_results = [('label', 0)]
-    def user_callback(input_tensor, src_size, inference_box)):   #9.24
+    def user_callback(input_tensor, src_size, inference_box)):
         nonlocal last_time
         nonlocal last_results
         start_time = time.monotonic()
