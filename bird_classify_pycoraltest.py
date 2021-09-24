@@ -178,9 +178,8 @@ def main():
     result = gstreamer.run_pipeline(user_callback,
                                     src_size=(640, 480),
                                     appsink_size=inference_size,
-                                    videofmt=args.videofmt,
                                     headless=args.headless)
-                                    # delete videosrc=args.videosrc,
+                                    # delete videosrc=args.videosrc,  videofmt=args.videofmt,
 
 if __name__ == '__main__':
     main()
