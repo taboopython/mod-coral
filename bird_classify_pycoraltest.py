@@ -103,7 +103,7 @@ def user_selections():
     parser.add_argument('--training', default=False, required=False,
                         help='Training mode for image collection')
     #parser.add_argument('--videosrc', help='Which video source to use. ',
-                        default='/dev/video0')
+    #                    default='/dev/video0')
     parser.add_argument('--headless', help='Run without displaying the video.',
                         default=False, type=bool)
     parser.add_argument('--videofmt', help='Input video format.',
