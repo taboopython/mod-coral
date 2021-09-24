@@ -129,7 +129,7 @@ def main():
     labels = read_label_file(args.labels) # if args.labels else {}
     inference_size = input_size(interpreter) #★定義の仕方
     # Average fps over last 30 frames.
-    fps_counter = avg_fps_counter(30) #9.24
+    #fps_counter = avg_fps_counter(30) #9.24
     
     storage_dir = args.storage
 
