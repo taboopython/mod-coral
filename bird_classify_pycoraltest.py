@@ -35,6 +35,8 @@ import gstreamer
 #import sys
 #sys.path.append('/usr/lib/python3/dist-packages/edgetpu')
 #from edgetpu.classification.engine import ClassificationEngine
+import os 
+from common import avg_fps_counter, SVG
 from PIL import Image
 from playsound import playsound
 import numpy as np
