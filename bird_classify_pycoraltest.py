@@ -40,7 +40,7 @@ from playsound import playsound
 import numpy as np
 from pycoral.adapters import classify
 from pycoral.adapters import common
-from common import avg_fps_counter, SVG #9.24
+#from common import avg_fps_counter, SVG #9.24
 from pycoral.utils.dataset import read_label_file
 from pycoral.utils.edgetpu import make_interpreter
 from pycoral.utils.edgetpu import run_inference
