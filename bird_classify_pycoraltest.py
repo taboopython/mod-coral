@@ -102,7 +102,7 @@ def user_selections():
                         help='Print inference results to terminal')
     parser.add_argument('--training', default=False, required=False,
                         help='Training mode for image collection')
-    parser.add_argument('--videosrc', help='Which video source to use. ',
+    #parser.add_argument('--videosrc', help='Which video source to use. ',
                         default='/dev/video0')
     parser.add_argument('--headless', help='Run without displaying the video.',
                         default=False, type=bool)
