@@ -177,9 +177,8 @@ def main():
         last_time = end_time
     result = gstreamer.run_pipeline(user_callback,
                                     src_size=(640, 480),
-                                    appsink_size=inference_size,
-                                    headless=args.headless)
-                                    # delete videosrc=args.videosrc,  videofmt=args.videofmt,
+                                    appsink_size=inference_size)
+                                    # delete videosrc=args.videosrc,  videofmt=args.videofmt,headless=args.headless
 
 if __name__ == '__main__':
     main()
