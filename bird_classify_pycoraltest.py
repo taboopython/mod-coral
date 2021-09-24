@@ -40,6 +40,7 @@ from playsound import playsound
 import numpy as np
 from pycoral.adapters import classify
 from pycoral.adapters import common
+from common import avg_fps_counter, SVG #9.24
 from pycoral.utils.dataset import read_label_file
 from pycoral.utils.edgetpu import make_interpreter
 from pycoral.utils.edgetpu import run_inference
@@ -128,7 +129,7 @@ def main():
     labels = read_label_file(args.labels) # if args.labels else {}
     inference_size = input_size(interpreter) #★定義の仕方
     # Average fps over last 30 frames.
-    # fps_counter = avg_fps_counter(30)
+    fps_counter = avg_fps_counter(30) #9.24
     
     storage_dir = args.storage
 
@@ -143,13 +144,13 @@ def main():
 
     last_time = time.monotonic()
     last_results = [('label', 0)]
-    def user_callback(image,svg_canvas):
+    def user_callback(input_tensor, src_size, inference_box)):   #9.24
         nonlocal last_time
         nonlocal last_results
         start_time = time.monotonic()
         #results = engine.classify_with_image(image, threshold=args.threshold, top_k=args.top_k)
         run_inference(interpreter, input_tensor)
-        results = get_classes(interpreter, args.top_k, args.threshold)
+        results = get_classes(interpreter, args.top_k, args.threshold) #9.24
         end_time = time.monotonic()
         results = [(labels[i], score) for i, score in results]
 
