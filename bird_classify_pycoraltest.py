@@ -42,7 +42,7 @@ from playsound import playsound
 import numpy as np
 from pycoral.adapters import classify
 from pycoral.adapters import common
-#from common import avg_fps_counter, SVG #9.24
+
 from pycoral.utils.dataset import read_label_file
 from pycoral.utils.edgetpu import make_interpreter
 from pycoral.utils.edgetpu import run_inference
@@ -102,8 +102,8 @@ def user_selections():
                         help='Print inference results to terminal')
     parser.add_argument('--training', default=False, required=False,
                         help='Training mode for image collection')
-    #parser.add_argument('--videosrc', help='Which video source to use. ',
-    #                    default='/dev/video0')
+    parser.add_argument('--videosrc', help='Which video source to use. ',
+                        default='/dev/video0')
     parser.add_argument('--headless', help='Run without displaying the video.',
                         default=False, type=bool)
     parser.add_argument('--videofmt', help='Input video format.',
@@ -123,15 +123,13 @@ def main():
     'alarm' if a defined label is detected."""
     args = user_selections()
     print("Loading %s with %s labels."%(args.model, args.labels))
-   # engine = ClassificationEngine(args.model)
-   # params = common.input_details(interpreter, 'quantization_parameters')
+ 
     interpreter = make_interpreter(args.model)
     interpreter.allocate_tensors()
-    #labels = load_labels(args.labels)
-    labels = read_label_file(args.labels) # if args.labels else {}
-    inference_size = input_size(interpreter) #★定義の仕方
-    # Average fps over last 30 frames.
-    #fps_counter = avg_fps_counter(30) #9.24
+  
+    labels = read_label_file(args.labels)
+    inference_size = input_size(interpreter)
+
     
     storage_dir = args.storage
 
@@ -150,9 +148,9 @@ def main():
         nonlocal last_time
         nonlocal last_results
         start_time = time.monotonic()
-        #results = engine.classify_with_image(image, threshold=args.threshold, top_k=args.top_k)
+        
         run_inference(interpreter, input_tensor)
-        results = get_classes(interpreter, args.top_k, args.threshold) #9.24
+        results = get_classes(interpreter, args.top_k, args.threshold)
         end_time = time.monotonic()
         results = [(labels[i], score) for i, score in results]
 
@@ -182,16 +180,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-    
-
-   
-
-    # Model must be uint8 quantized
-    #if common.input_details(interpreter, 'dtype') != np.uint8:
-    #  raise ValueError('Only support uint8 input type.')
-
-    #size = common.input_size(interpreter)
-    #image2 = Image.open(args.input).convert('RGB').resize(size, Image.ANTIALIAS)
